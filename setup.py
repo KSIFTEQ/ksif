@@ -9,7 +9,7 @@ with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
 
 setup(
-    name='ksif2',
+    name='ksif',
     version='2020.2.29',
     description='Quantitative investment tools for KSIF',
     long_description=long_description,
