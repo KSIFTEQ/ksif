@@ -76,47 +76,48 @@ class Portfolio(DataFrame):
     def __init__(self, data=None, index=None, columns=None, dtype=None, copy: bool = False,
                  start_date: datetime = START_DATE, end_date: datetime = None,
                  include_holding: bool = False, include_finance: bool = False,
-                 include_managed: bool = False, include_suspended: bool = False):
+                 include_managed: bool = False, include_suspended: bool = False,
+                 merge_macro: bool = False, freq: str = 'D'):
 
         if not end_date:
             end_date = datetime.today()
 
         if data is None:
-            print('Data is being downloaded from KSIF DROPBOX DATA STORAGE')
-            dbx = dropbox.Dropbox(
-                oauth2_access_token='TVRotgoEpxAAAAAAAAAAMyxLV0OXl61S_mXAzvj7tynmAbUz6J2mgIDYvAh-XxHG', timeout=None)
+            data, self.macros, self.benchmarks, self.factors = download_latest_data(download_company_data=True)
 
-            metadata, f = dbx.files_download('/preprocessed/final_msf.csv')
-            # metadata, f = dbx.files_download('/preprocessed/merged.csv')
-            binary_file = f.content
-            data = pd.read_csv(io.BytesIO(binary_file))
+            if not include_holding:
+                data = data.loc[~data[HOLDING], :]
 
-            #
-            _, self.benchmarks, self.factors = download_latest_data(download_company_data=False)
-            #
-            # if not include_holding:
-            #     data = data.loc[~data[HOLDING], :]
-            #
-            # if not include_finance:
-            #     data = data.loc[data[FN_GUIDE_SECTOR] != '금융', :]
-            #
-            # if not include_managed:
-            #     data = data.loc[~data[IS_MANAGED], :]
-            #
-            # if not include_suspended:
-            #     data = data.loc[~data[IS_SUSPENDED], :]
-            #
-            # data = data.loc[(start_date <= data[DATE]) & (data[DATE] <= end_date), :]
+            if not include_finance:
+                data = data.loc[data[FN_GUIDE_SECTOR] != '금융', :]
 
+            if not include_managed:
+                data = data.loc[~data[IS_MANAGED], :]
+
+            if not include_suspended:
+                data = data.loc[~data[IS_SUSPENDED], :]
+
+            # match date & frequency and do preprocess
+            data, self.macros, self.benchmarks, self.factors = process_all(unprocessed_companies=data,
+                                                                           unprocessed_macros=self.macros,
+                                                                           unprocessed_benchmarks=self.benchmarks,
+                                                                           unprocessed_factors=self.factors,
+                                                                           start_date=start_date,
+                                                                           end_date=end_date, freq=freq)
         else:
-            _, self.benchmarks, self.factors = download_latest_data(download_company_data=False)
+            _, self.macros, self.benchmarks, self.factors = download_latest_data(download_company_data=False)
 
-        self.benchmarks = self.benchmarks.loc[
-                          (start_date <= self.benchmarks[DATE]) & (self.benchmarks[DATE] <= end_date), :]
-        self.factors = self.factors.loc[(start_date <= self.factors.index) & (self.factors.index <= end_date), :]
+            # match date & frequency and do preprocess
+            _, self.macros, self.benchmarks, self.factors = process_all(unprocessed_macros=self.macros,
+                                                                        unprocessed_benchmarks=self.benchmarks,
+                                                                        unprocessed_factors=self.factors,
+                                                                        start_date=start_date,
+                                                                        end_date=end_date, freq=freq)
 
-        super(Portfolio, self).__init__(data=data) #, index=index, columns=columns, dtype=dtype, copy=copy)
-        # self.data = data
+        if merge_macro:
+            data = data.merge(self.macros, how='left', left_on="date", right_index=True)
+
+        DataFrame.__init__(self=self, data=data, index=index, columns=columns, dtype=dtype, copy=copy)
 
     def __getitem__(self, key):
         from pandas.core.dtypes.common import is_list_like, is_integer, is_iterator
