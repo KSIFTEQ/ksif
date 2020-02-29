@@ -16,9 +16,9 @@ setup(
     author='KSIF Tech',
     author_email='sh.cho@kaist.ac.kr',
     url='https://github.com/sangheumcho/ksif',
-    download_url='https://github.com/sangheumcho/ksif/archive/master.zip',
+    # download_url='https://github.com/sangheumcho/ksif/archive/master.zip',
     install_requires=[
-        'h5py==2.8.0',
+        # 'h5py==2.8.0',
         'pandas',
         'numpy',
         'matplotlib',
@@ -33,7 +33,7 @@ setup(
         'python-dateutil',
         'urllib3',
         'xlrd',
-        'dropbox'
+        # 'dropbox'
     ],
     packages=find_packages(exclude=['tests*']),
     keywords=['ksif', 'portfolio', 'backtest', 'finance'],
