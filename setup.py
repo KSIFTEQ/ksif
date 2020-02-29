@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-:Author: Jaekyoung Kim
+:Author: Jaekyoung Kim, Chankyu Choi, Sangheum Cho
 :Date: 2018. 6. 6.
 """
 from setuptools import setup, find_packages
@@ -10,13 +10,13 @@ with open("README.md", "r", encoding='utf-8') as fh:
 
 setup(
     name='ksif',
-    version='2019.7.31',
+    version='2020.2.29',
     description='Quantitative investment tools for KSIF',
     long_description=long_description,
     author='KSIF Tech',
-    author_email='traintion9@kaist.ac.kr',
-    url='https://github.com/chanstar9/ksif',
-    download_url='https://github.com/chanstar9/ksif/archive/master.zip',
+    author_email='sh.cho@kaist.ac.kr',
+    url='https://github.com/sangheumcho/ksif',
+    download_url='https://github.com/sangheumcho/ksif/archive/master.zip',
     install_requires=[
         'h5py==2.8.0',
         'pandas',

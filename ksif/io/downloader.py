@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 
 import urllib3
+import pandas as pd
+
 from pandas import DataFrame
 from pandas import read_hdf
 
@@ -57,9 +59,10 @@ def download_latest_data(download_company_data) -> (DataFrame, DataFrame):
 
 
 def _download_data(file_name, id):
-    local_company_file_path = '{}/{}.h5'.format(DATA_DIR, file_name)
+    local_company_file_path = '{}/{}.pck'.format(DATA_DIR, file_name)
     if Path(local_company_file_path).exists():
-        latest_company_data = custom_read_hdf(local_company_file_path)
+        # latest_company_data = custom_read_hdf(local_company_file_path)
+        latest_company_data = pd.read_pickle(local_company_file_path)
     else:
         print("Downloading {} from web...".format(file_name))
         latest_company_data = query_google_csv_file(id)
