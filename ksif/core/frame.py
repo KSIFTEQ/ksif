@@ -74,48 +74,43 @@ class Portfolio(DataFrame):
 
     @not_empty
     def __init__(self, data=None, index=None, columns=None, dtype=None, copy: bool = False,
-                 start_date: datetime = START_DATE, end_date: datetime = None,
+                 start_date: str = START_DATE, end_date: str = None,
                  include_holding: bool = False, include_finance: bool = False,
-                 include_managed: bool = False, include_suspended: bool = False,
-                 merge_macro: bool = False, freq: str = 'D'):
+                 include_managed: bool = False, include_suspended: bool = False):
 
-        if not end_date:
-            end_date = datetime.today()
+        # try:
+        #     datetime.strptime(start_date, '%Y-%m-%d')
+        # except ValueError:
+        #     raise ValueError("Incorrect data format, start_date should be YYYY-MM-DD")
+
+        # if not end_date:
+        #     end_date = datetime.today().strftime('%Y-%m-%d')
+
+        # try:
+        #     datetime.strptime(end_date, '%Y-%m-%d')
+        # except ValueError:
+        #     raise ValueError("Incorrect data format, end_date should be YYYY-MM-DD")
 
         if data is None:
-            data, self.macros, self.benchmarks, self.factors = download_latest_data(download_company_data=True)
+            # data, self.benchmarks = download_latest_data()
+            data = download_latest_data()
 
-            if not include_holding:
-                data = data.loc[~data[HOLDING], :]
-
-            if not include_finance:
-                data = data.loc[data[FN_GUIDE_SECTOR] != '금융', :]
-
-            if not include_managed:
-                data = data.loc[~data[IS_MANAGED], :]
-
-            if not include_suspended:
-                data = data.loc[~data[IS_SUSPENDED], :]
-
-            # match date & frequency and do preprocess
-            data, self.macros, self.benchmarks, self.factors = process_all(unprocessed_companies=data,
-                                                                           unprocessed_macros=self.macros,
-                                                                           unprocessed_benchmarks=self.benchmarks,
-                                                                           unprocessed_factors=self.factors,
-                                                                           start_date=start_date,
-                                                                           end_date=end_date, freq=freq)
+            # if not include_holding:
+            #     data = data.loc[~data[HOLDING], :]
+            #
+            # if not include_finance:
+            #     data = data.loc[data[FN_GUIDE_SECTOR] != '금융', :]
+            #
+            # if not include_managed:
+            #     data = data.loc[~data[IS_MANAGED], :]
+            #
+            # if not include_suspended:
+            #     data = data.loc[~data[IS_SUSPENDED], :]
+            #
+            # data = data.loc[(start_date <= data[DATE]) & (data[DATE] <= end_date), :]
         else:
-            _, self.macros, self.benchmarks, self.factors = download_latest_data(download_company_data=False)
-
-            # match date & frequency and do preprocess
-            _, self.macros, self.benchmarks, self.factors = process_all(unprocessed_macros=self.macros,
-                                                                        unprocessed_benchmarks=self.benchmarks,
-                                                                        unprocessed_factors=self.factors,
-                                                                        start_date=start_date,
-                                                                        end_date=end_date, freq=freq)
-
-        if merge_macro:
-            data = data.merge(self.macros, how='left', left_on="date", right_index=True)
+            # _, self.benchmarks = download_latest_data()
+            _ = download_latest_data()
 
         DataFrame.__init__(self=self, data=data, index=index, columns=columns, dtype=dtype, copy=copy)
 
