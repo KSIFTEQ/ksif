@@ -1,0 +1,14 @@
+pandas
+numpy
+matplotlib
+scikit-learn
+scipy
+statsmodels
+patsy
+performanceanalytics
+tqdm
+requests
+tables
+python-dateutil
+urllib3
+xlrd

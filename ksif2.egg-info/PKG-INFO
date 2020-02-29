@@ -1,0 +1,26 @@
+Metadata-Version: 1.2
+Name: ksif2
+Version: 2020.2.29
+Summary: Quantitative investment tools for KSIF
+Home-page: https://github.com/sangheumcho/ksif
+Author: KSIF Tech
+Author-email: sh.cho@kaist.ac.kr
+License: UNKNOWN
+Description: # ksif
+        Data download and back testing tools for KSIF
+        # KSIF Preprocessing
+        Data preprocessing tool for KSIF library
+        
+        ## Usage
+        Set the root directory as your working directory like 'C:\Users\willbe\PycharmProjects\ksif_preprocessing'.
+        Pass a parameter indicating a file name in data folder like '180730'.
+        After running 'core/__init__.py', the result files are saved in the root directory.
+        
+        ## 여러가지 feature 추가 작업 재시작, daily, semi-month frequency 추가
+        
+Keywords: ksif,portfolio,backtest,finance
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.5
