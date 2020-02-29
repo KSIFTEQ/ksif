@@ -74,26 +74,27 @@ class Portfolio(DataFrame):
 
     @not_empty
     def __init__(self, data=None, index=None, columns=None, dtype=None, copy: bool = False,
-                 start_date: datetime = START_DATE, end_date: datetime = None,
+                 start_date: str = START_DATE, end_date: str = None,
                  include_holding: bool = False, include_finance: bool = False,
                  include_managed: bool = False, include_suspended: bool = False):
 
-        if not end_date:
-            end_date = datetime.today()
+        # try:
+        #     datetime.strptime(start_date, '%Y-%m-%d')
+        # except ValueError:
+        #     raise ValueError("Incorrect data format, start_date should be YYYY-MM-DD")
+
+        # if not end_date:
+        #     end_date = datetime.today().strftime('%Y-%m-%d')
+
+        # try:
+        #     datetime.strptime(end_date, '%Y-%m-%d')
+        # except ValueError:
+        #     raise ValueError("Incorrect data format, end_date should be YYYY-MM-DD")
 
         if data is None:
-            print('Data is being downloaded from KSIF DROPBOX DATA STORAGE')
-            dbx = dropbox.Dropbox(
-                oauth2_access_token='TVRotgoEpxAAAAAAAAAAMyxLV0OXl61S_mXAzvj7tynmAbUz6J2mgIDYvAh-XxHG', timeout=None)
+            # data, self.benchmarks = download_latest_data()
+            data = download_latest_data()
 
-            metadata, f = dbx.files_download('/preprocessed/final_msf.csv')
-            # metadata, f = dbx.files_download('/preprocessed/merged.csv')
-            binary_file = f.content
-            data = pd.read_csv(io.BytesIO(binary_file))
-
-            #
-            _, self.benchmarks, self.factors = download_latest_data(download_company_data=False)
-            #
             # if not include_holding:
             #     data = data.loc[~data[HOLDING], :]
             #
@@ -107,16 +108,11 @@ class Portfolio(DataFrame):
             #     data = data.loc[~data[IS_SUSPENDED], :]
             #
             # data = data.loc[(start_date <= data[DATE]) & (data[DATE] <= end_date), :]
-
         else:
-            _, self.benchmarks, self.factors = download_latest_data(download_company_data=False)
+            # _, self.benchmarks = download_latest_data()
+            _ = download_latest_data()
 
-        self.benchmarks = self.benchmarks.loc[
-                          (start_date <= self.benchmarks[DATE]) & (self.benchmarks[DATE] <= end_date), :]
-        self.factors = self.factors.loc[(start_date <= self.factors.index) & (self.factors.index <= end_date), :]
-
-        super(Portfolio, self).__init__(data=data) #, index=index, columns=columns, dtype=dtype, copy=copy)
-        # self.data = data
+        DataFrame.__init__(self=self, data=data, index=index, columns=columns, dtype=dtype, copy=copy)
 
     def __getitem__(self, key):
         from pandas.core.dtypes.common import is_list_like, is_integer, is_iterator
