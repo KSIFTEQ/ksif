@@ -28,7 +28,6 @@ from .columns import *
 from .outcomes import *
 from ..io.downloader import download_latest_data
 from ..util.checker import not_empty
-import dropbox
 import io
 
 # Hangul font setting
