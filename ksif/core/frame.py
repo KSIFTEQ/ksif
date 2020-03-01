@@ -92,7 +92,8 @@ class Portfolio(DataFrame):
 
         if data is None:
             # data, self.benchmarks = download_latest_data()
-            data = download_latest_data()
+            download_company_data = True
+            data = download_latest_data(download_company_data)
 
             # if not include_holding:
             #     data = data.loc[~data[HOLDING], :]
@@ -108,8 +109,9 @@ class Portfolio(DataFrame):
             #
             # data = data.loc[(start_date <= data[DATE]) & (data[DATE] <= end_date), :]
         else:
+            download_company_data = True
             # _, self.benchmarks = download_latest_data()
-            _ = download_latest_data()
+            _ = download_latest_data(download_company_data)
 
         DataFrame.__init__(self=self, data=data, index=index, columns=columns, dtype=dtype, copy=copy)
 
