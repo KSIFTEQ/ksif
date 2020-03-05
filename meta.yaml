@@ -28,14 +28,14 @@ requirements:
     - pandas
     - numpy
     - matplotlib
-    - scikit
+    - scikit-learn
     - scipy
     - statsmodels
     - patsy
-    - performanceanalytics
+    - r-performanceanalytics
     - tqdm
     - requests
-    - tables
+    - pytables
     - python-dateutil
     - urllib3
     - xlrd
