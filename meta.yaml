@@ -20,6 +20,20 @@ requirements:
     - setuptools >=3.3
     - python-dateutil >=2.5.0
     - pytz
+    - pandas
+    - numpy
+    - matplotlib
+    - scikit-learn
+    - scipy
+    - statsmodels
+    - patsy
+    - performanceanalytics
+    - tqdm
+    - requests
+    - tables
+    - python-dateutil
+    - urllib3
+    - xlrd
   run:
     - python {{ python }}
     - {{ pin_compatible('numpy') }}
