@@ -6,7 +6,7 @@ build:
     number: 20200305
 
 source:
-    git_url: ../
+    git_url: ./
 
 requirements:
   build:
