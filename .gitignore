@@ -15,6 +15,7 @@ raw_data/
 *.xlsx
 *.csv
 *.pck
+*.pdf
 !ksif/tests/data/
 !preprocess/tests/data/
 !preprocess/data/
