@@ -38,7 +38,7 @@ requirements:
     - pytables
     - python-dateutil
     - urllib3
-    - xlrd
+    - anaconda xlrd
 
 test:
   requires:
