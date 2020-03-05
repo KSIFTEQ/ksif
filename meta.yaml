@@ -20,10 +20,15 @@ requirements:
     - setuptools >=3.3
     - python-dateutil >=2.5.0
     - pytz
+  run:
+    - python {{ python }}
+    - {{ pin_compatible('numpy') }}
+    - python-dateutil >=2.5.0
+    - pytz
     - pandas
     - numpy
     - matplotlib
-    - scikit-learn
+    - scikit
     - scipy
     - statsmodels
     - patsy
@@ -34,11 +39,6 @@ requirements:
     - python-dateutil
     - urllib3
     - xlrd
-  run:
-    - python {{ python }}
-    - {{ pin_compatible('numpy') }}
-    - python-dateutil >=2.5.0
-    - pytz
 
 test:
   requires:
