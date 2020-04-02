@@ -37,7 +37,6 @@ requirements:
     - requests
     - pytables
     - python-dateutil
-    - urllib3
 
 test:
   requires:

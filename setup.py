@@ -32,7 +32,7 @@ setup(
         'tables',
         'python-dateutil',
         'urllib3',
-        # 'xlrd',
+        'xlrd',
         # 'dropbox'
     ],
     packages=find_packages(exclude=['tests*']),
