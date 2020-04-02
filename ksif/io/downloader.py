@@ -68,8 +68,8 @@ def _download_data(file_name, id):
         latest_company_data = query_google_csv_file(id)
         # latest_company_data.to_hdf(local_company_file_path, key=TABLE, mode='w')
 
-        latest_company_data['mdate'] = pd.to_date(latest_company_data['mdate'])
-        latest_company_data['date'] = pd.to_date(latest_company_data['date'])
+        latest_company_data['mdate'] = pd.to_datetime(latest_company_data['mdate'])
+        latest_company_data['date'] = pd.to_datetime(latest_company_data['date'])
 
         latest_company_data.to_pickle(local_company_file_path)
         print("{} is saved as {}.".format(file_name, local_company_file_path))
